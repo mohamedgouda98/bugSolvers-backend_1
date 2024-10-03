@@ -20,5 +20,5 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
 }else{
-    echo "Just POST Requests, return to login page";
+    echo "Just POST Requests, redirect to login page";
 }
