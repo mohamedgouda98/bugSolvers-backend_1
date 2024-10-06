@@ -1,13 +1,30 @@
 <?php
 
+/**
+ * create function and take 2 param [value - array].
+ * validate if value is in array or not
+ */
 
-$numbers = [1,2,3,4,5,6,7,8,9,10];
 
-foreach ($numbers as $number)
+var_dump(checkInArray(30,[10,30,40]));
+echo '<hr>';
+var_dump(checkInArray(9,[1,2,3,4,5]));
+
+
+
+function checkInArray($value, $array)
 {
-    echo '<h3>' . $number . '</h3><br>';
-}
 
+    for ($i=0; $i< count($array); $i++)
+    {
+        if($array[$i] == $value)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 
 ?>

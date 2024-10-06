@@ -15,7 +15,8 @@
     <input type="email" name="email" placeholder="Enter your email"><br><br>
     <input type="password" name="password" placeholder="Enter your password"><br><br>
     <p>u don't have account <a href="register.php">register now</a></p>
-    <button type="submit">Login</button>
+    <input type="submit" value="login" name="action">
+<!--    <button type="submit">Login</button>-->
 </form>
 
 </body>
