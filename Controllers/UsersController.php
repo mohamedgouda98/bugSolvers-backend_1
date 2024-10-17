@@ -1,19 +1,6 @@
 <?php
 
-$host ='localhost';
-$user = 'root';
-$password='root';
-$database= "Backend";
-
-$dsn = "mysql:host=$host;dbname=$database";
-
-
-try{
-    $db = new PDO($dsn,$user,$password);
-}catch (Exception $e)
-{
-    echo $e->getMessage();
-}
+include '../DB/db_connect.php';
 
 if(isset($_POST['action']))
 {
@@ -23,7 +10,6 @@ if ($_POST['action'] == 'store') {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-
 
     $sql = "INSERT INTO users(name,email,password) VALUES(?,?,?)";
 
