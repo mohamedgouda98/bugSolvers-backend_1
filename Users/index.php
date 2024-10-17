@@ -19,7 +19,7 @@ $usersQuery->execute();
 $users = $usersQuery->fetchAll();
 ?>
 
-
+<a href="create.php">Create User</a>
 <table border="1px">
     <thead>
         <tr>
@@ -45,7 +45,7 @@ $users = $usersQuery->fetchAll();
                 <td>
                     <form method="post" action="../Controllers/UsersController.php">
                         <input type="hidden" name="user_id" value="<?php echo $user['id']?>">
-                        <input type="submit" value="Delete" name="action">
+                        <input type="submit" value="update" name="action">
                     </form>
                 </td>
             </tr>

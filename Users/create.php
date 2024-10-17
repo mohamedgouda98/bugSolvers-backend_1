@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-<h5>Create User</h5>
+<h2>Create User</h2>
 <form method="post" action="../Controllers/UsersController.php">
     <input type="text" name="name" required placeholder="Enter your name"><br>
     <input type="email" name="email" required placeholder="Enter your email"><br>
