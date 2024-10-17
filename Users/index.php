@@ -45,7 +45,7 @@ $users = $usersQuery->fetchAll();
                 <td>
                     <form method="post" action="../Controllers/UsersController.php">
                         <input type="hidden" name="user_id" value="<?php echo $user['id']?>">
-                        <input type="submit" value="update" name="action">
+                        <input type="submit" value="Delete" name="action">
                     </form>
                 </td>
             </tr>
