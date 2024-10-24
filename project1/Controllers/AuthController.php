@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 global $db;
 include '../db/db.php';
 
