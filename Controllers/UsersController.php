@@ -58,7 +58,7 @@ function store()
     $addUser = $db->prepare($sql);
     $addUser->execute([$name, $email, $password]);
 
-    header('Location: ../Users/index.php');
+    header('Location: ../Users/login.php');
 }
 
 
@@ -72,7 +72,7 @@ function delete()
     $deleteUser = $db->prepare($sql);
     $deleteUser->execute([$userId]);
 
-    header('Location: ../Users/index.php');
+    header('Location: ../Users/login.php');
 }
 
 function update()
