@@ -13,11 +13,6 @@ if(isset($_SESSION['user_id'])){
 </head>
 <body>
 
-<?php
-
-echo $_SESSION['msg'];
-
-?>
 
 <h2>Home Page</h2>
 

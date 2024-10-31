@@ -1,106 +1,170 @@
 <?php
+
+/**
+ * register function. => Done
+ * login function. => Done
+ * validate inputs is required => Done
+ * validate email is not exists. => Done
+ * set user to session and redirect to home => Done
+ * display errors => Done
+ *
+ */
+
+
 session_start();
 global $db;
 include '../db/db.php';
-class AuthControllerOOP
+
+
+class AuthControllerOOP implements AuthControllerInterface, LogoutInterface
 {
-    public $name;
-    public $email;
-    public $phone;
-    public $password;
-
     public $errors = [];
-    public function register(){
+
+    public function register()
+    {
         global $db;
-        $this->validateRequired([
-            'name' => $this->name,
-            'email' =>$this->email,
-            'phone' =>$this->phone,
-            'password' => $this->password
-        ]);
-        $this->validateEmailExists($this->email);
+        $email = $_POST['email'];
+        $name = $_POST['name'];
+        $phone = $_POST['phone'];
+        $password = $_POST['password'];
+        Validation::validateRequired(['name','phone','email','password']);
+        Validation::validateEmailIsExists($email);
+        Validation::displayErrors('../register.php');
 
-       if(count($this->errors) != 0)
-       {
-           $_SESSION['errors'] = $this->errors;
-           header('Location:../register.php');
-           die();
-       }
 
-        $sql = 'INSERT INTO users(name,email,phone,password) VALUES(?,?,?,?)';
+        $sql = "INSERT INTO users(name,email,phone,password) VALUES(?,?,?,?)";
+        $user = $db->prepare($sql);
+        $user->execute([$name,$email,$phone,$password]);
 
-        $createUser = $db->prepare($sql);
-        $createUser->execute([
-            $this->name,
-            $this->email,
-            $this->phone,
-            $this->password
-        ]);
+        $this->setUserToSession($email);
+    }
+    public function login()
+    {
+        global $db;
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-        $this->setUserToSession($this->email);
+        Validation::validateRequired(['name','phone','email','password']);
+        Validation::displayErrors('../register.php');
 
-        $_SESSION['msg'] = 'hello, <b>' . $this->name . '</b> your account is created';
 
-        header('Location: ../home.php');
+        $sql = "SELECT *  FROM users WHERE email=? AND password=?";
+        $user = $db->prepare($sql);
+        $user->execute([$email,$password]);
+        if($user->rowCount() == 0)
+        {
+            $this->errors[] = "email or password is wrong";
+            $_SESSION['errors'] = $this->errors;
+            header('Location: ../login.php');
+            die();
+        }
 
+        $this->setUserToSession($email);
+    }
+
+    private function setUserToSession($email)
+    {
+        global $db;
+        $sql = "SELECT * FROM users WHERE email=?";
+        $user = $db->prepare($sql);
+        $user->execute([$email]);
+        $userData = $user->fetch();
+
+        $_SESSION['user_id'] = $userData['id'];
+        header('Location:../home.php');
     }
 
 
-    private function validateRequired($inputs)
+    public function logout()
     {
-        foreach ($inputs as $key => $value)
+        // TODO: Implement logout() method.
+    }
+}
+
+
+
+class Home implements LogoutInterface
+{
+    public function logout()
+    {
+
+    }
+}
+
+class Validation
+{
+    public static $errors = [];
+    public static function validateRequired($inputs = [])
+    {
+        foreach ($inputs as $input)
         {
-            if(empty($value))
+            if(empty($_POST[$input]))
             {
-                $this->errors [] = $key . ' is required';
+                Validation::$errors[] =  $input . ' is required';
             }
         }
         return true;
     }
 
-
-    private function validateEmailExists($email)
+    public static function validateEmailIsExists($email)
     {
         global $db;
         $sql = "SELECT id FROM users WHERE email=?";
-        $isExists = $db->prepare($sql);
-        $isExists->execute([$email]);
-        if($isExists->rowCount() != 0)
+        $user = $db->prepare($sql);
+        $user->execute([$email]);
+
+        if($user->rowCount() != 0 )
         {
-            $this->errors[] = 'this email is exists';
+           Validation::$errors[] = "Email is exists";
         }
+        return true;
     }
 
 
-    private function setUserToSession($email)
+    public static function displayErrors($redirect)
     {
-        global $db;
-        $sql = "SELECT id FROM users WHERE email=?";
-        $userStat = $db->prepare($sql);
-        $userStat->execute([$email]);
-        $user = $userStat->fetchAll();
-        $_SESSION['user_id'] = $user[0]['id'];
+        $_SESSION['errors'] = Validation::$errors;
+        header('Location:' . $redirect);
+        die();
     }
+}
 
+interface AuthControllerInterface
+{
+    public function register();
+
+    public function login();
 
 }
+
+
+interface LogoutInterface
+{
+    public function logout();
+}
+
+
+
+
 
 
 if(isset($_POST['action']))
 {
     $user = new AuthControllerOOP();
+
     if($_POST['action'] == 'Register')
     {
-        $user->name = $_POST['name'];
-        $user->email = $_POST['email'];
-        $user->password = $_POST['password'];
-        $user->phone = $_POST['phone'];
         $user->register();
+
+    }elseif($_POST['action'] == 'Login')
+    {
+        $user->login();
     }
 
 }else{
     echo 'invalid request';
 }
+
 
 
 

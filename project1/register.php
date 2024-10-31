@@ -146,6 +146,8 @@ button{
         <div class="errors">
             <?php
             session_start();
+//            $_SESSION['errors'] = [];
+
             if(count($_SESSION['errors']) > 0)
             {
                 foreach ($_SESSION['errors'] as $error)
@@ -153,7 +155,7 @@ button{
                     echo '<h5>'. $error .'</h5>';
                 }
 
-                $_SESSION['errors'] = [];
+            $_SESSION['errors'] = [];
             }
 
             ?>
