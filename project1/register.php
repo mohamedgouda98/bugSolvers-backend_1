@@ -142,7 +142,7 @@ button{
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form method="post" action="Controllers/AuthController.php">
+    <form method="post" action="Controllers/AuthControllerOOP.php">
         <div class="errors">
             <?php
             session_start();
