@@ -1,58 +1,37 @@
 <?php
 
-interface Car
+class Car
 {
-    public function color($value);
+   public function color($value)
+   {
+       echo  "this color is : ". $value;
+   }
 
-    public function motor();
+   public function motor($value)
+   {
+       echo "motor is : " . $value;
+   }
 
 }
 
-interface Tires
+trait Glass
 {
-    public function tires();
+    public function GlassType()
+    {
+        echo "<hr>Glass type is egypt";
+    }
+
 }
 
 
-class bmw implements Car {
 
-    public function color($value)
-    {
-        echo 'bmw color : ' . $value . '<hr>';
-    }
-
-    public function motor()
-    {
-       echo '2000 CCT';
-    }
-}
-
-
-class lancer implements Car, Tires
+class XCar extends Car
 {
-    public function motor()
-    {
-        return '1600 cc';
-    }
-
-    public function color($color)
-    {
-        echo 'lancer color is : ' . $color . '<hr>';
-    }
-
-    public function tires()
-    {
-        echo '14/7';
-    }
+    use Glass;
 }
 
 
 
-
-$carBM = new bmw();
-$carBM->color('green');
-
-
-$carLancer = new lancer();
-$carLancer->color('black');
-
+$myCar = new XCar();
+$myCar->color("black");
+$myCar->GlassType();
