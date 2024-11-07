@@ -1,40 +1,40 @@
 <?php
 
-abstract class Book
+interface Car
 {
-    public $name;
-    public function name()
-    {
-        echo "name is : {$this->name}";
-    }
-
-    abstract public function subjects();
+    public function getCar();
 }
 
-interface test
+class bmw implements Car {
+
+    public function getCar()
+    {
+        echo 'bmw car<hr>';
+    }
+}
+
+class lancer implements Car {
+
+    public function getCar()
+    {
+        echo 'lancer car<hr>';
+    }
+}
+
+class Tipo implements Car {
+
+
+    public function getCar()
+    {
+        echo 'Tipo car<hr>';
+
+    }
+}
+
+
+$cars = [new bmw(), new lancer(), new Tipo()];
+
+foreach ($cars as $car)
 {
-   public function getName($name);
+    $car->getCar();
 }
-
-
-
-class Math extends Book implements test {
-
-    public function subjects()
-    {
-        echo "1,2,3,4";
-    }
-
-    public function getName($name)
-    {
-
-    }
-
-}
-
-$ob = new Math();
-$ob->name = "Math";
-$ob->name();
-$ob->subjects();
-
-
