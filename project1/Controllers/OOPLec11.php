@@ -1,37 +1,40 @@
 <?php
 
-class Car
+abstract class Book
 {
-   public function color($value)
-   {
-       echo  "this color is : ". $value;
-   }
+    public $name;
+    public function name()
+    {
+        echo "name is : {$this->name}";
+    }
 
-   public function motor($value)
-   {
-       echo "motor is : " . $value;
-   }
-
+    abstract public function subjects();
 }
 
-trait Glass
+interface test
 {
-    public function GlassType()
+   public function getName($name);
+}
+
+
+
+class Math extends Book implements test {
+
+    public function subjects()
     {
-        echo "<hr>Glass type is egypt";
+        echo "1,2,3,4";
+    }
+
+    public function getName($name)
+    {
+
     }
 
 }
 
+$ob = new Math();
+$ob->name = "Math";
+$ob->name();
+$ob->subjects();
 
 
-class XCar extends Car
-{
-    use Glass;
-}
-
-
-
-$myCar = new XCar();
-$myCar->color("black");
-$myCar->GlassType();
